@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  postgres:
+    image: docker.io/postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: luizeseuslivros-db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./docker_data:/var/lib/postgresql/data
+    networks:
+      - postgres-compose-network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "luizfelipewarmling@gmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "Senha123@"
+    ports:
+      - "8081:80"
+    depends_on:
+      - postgres
+    networks:
+      - postgres-compose-network
+
+networks:
+  postgres-compose-network:
+    driver: bridge
